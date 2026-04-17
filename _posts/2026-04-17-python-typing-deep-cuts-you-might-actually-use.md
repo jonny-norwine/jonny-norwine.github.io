@@ -65,7 +65,7 @@ Imagine a decorator used to add tracing
 def trace(f):
     def wrapped(*args, **kwargs):
         with tracer.trace():
-            f(*args, **kwargs)
+            return f(*args, **kwargs)
     return wrapped
 ```
 Decorators are functions that take another function as an argument, and return a new function. How do we add type annotations to this?
@@ -76,7 +76,7 @@ from typing import Any, Callable
 def trace(f: Callable[..., Any]) -> Callable[..., Any]:
     def wrapped(*args: Any, **kwargs: Any):
         with tracer.trace():
-            f(*args, **kwargs)
+            return f(*args, **kwargs)
     return wrapped
 ```
 This tells the type checker, "trace() accepts one argument, which is a callable with any call signature, and returns another callable with any call signature". The problem is that when you use this, it completely hides any real type information on the function `f`
@@ -90,7 +90,7 @@ Decorating `send()` produced a new function `wrapped()`. Based on our type annot
 def trace[T, **P](f: Callable[P, T]) -> Callable[P, T]:
     def wrapped(*args: P.args, **kwargs: P.kwargs) -> T:
         with tracer.trace():
-            f(*args, **kwargs)
+            return f(*args, **kwargs)
     return wrapped
 ```
 The square bracket syntax `[T, **P]` declares a type variable `T` and a ParamSpec `P` we can use for this function. `P` has attributes called args and kwargs that represent the type of whatever positional and keyword arguments are represented by `P`. Now, the type checker knows a lot more about `trace()`. It knows that `trace()` accepts a callable, with parameters `P` and return type `T`, and returns another callable with parameters `P` and return type `T`. 
