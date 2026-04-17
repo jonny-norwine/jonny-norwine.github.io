@@ -17,6 +17,7 @@ Before Python 3.12, you had to define type variables ahead of time, like this
 ```python
 from typing import TypeVar
 
+
 T = TypeVar("T")
 
 
@@ -38,7 +39,7 @@ def dedup[T: Hashable](items: list[T]) -> list[T]:
 ```
 For `dedup()` to work, items in the list must be hashable (or `set()` would complain). So, we can demand that whatever type `T` represents must be a subtype of `Hashable`. The syntax is, you specify the bound type after a colon inside the square brackets.
 
-Constraints are similar, except the mystery type must be exactly one of the constraint types, not a subtype of them. For example
+Constraints are similar, except the mystery type must be exactly one of the constraint types, not a subtype of them. Take a look at this 
 ```python
 def double[T: int | float](x: T) -> T:
     return x + x
@@ -125,8 +126,10 @@ from typing import overload, Literal, NoReturn, TextIO, BinaryIO
 @overload
 def open_file(path: str, mode: Literal["r"], encoding: str = "utf-8") -> TextIO: ...
 
+
 @overload
 def open_file(path: str, mode: Literal["rb"], encoding: NoReturn = ...) -> BinaryIO: ...
+
 
 def open_file(path, mode, encoding=None):
     ...
