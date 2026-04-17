@@ -1,2 +1,4 @@
 title: jonny-norwine.github.io
 theme: minima
+minima:
+  skin: dark
