@@ -209,15 +209,15 @@ from typing import Any, Literal
 type ListOfBananas = list[Literal["banana"]]
 
 
-def go_bananas(l: ListOfBananas) -> None:
+def go_bananas(bananas: ListOfBananas) -> None:
     print("BANANAS!!!")
-    for banana in l:
+    for banana in bananas:
         print(banana)
 
 
-def maybe_go_bananas(l: list[Any]) -> None:
-    if isinstance(l, ListOfBananas): 
-        go_bananas(l)
+def maybe_go_bananas(x: Any) -> None:
+    if isinstance(x, ListOfBananas): 
+        go_bananas(x)
     else:
         pass
 ```
@@ -229,15 +229,15 @@ from typing import Any, Literal
 type ListOfBananas = list[Literal["banana"]]
 
 
-def go_bananas(l: ListOfBananas) -> None:
+def go_bananas(bananas: ListOfBananas) -> None:
     print("BANANAS!!!")
-    for banana in l:
+    for banana in bananas:
         print(banana)
 
 
-def maybe_go_bananas(l: list[Any]) -> None:
-    if isinstance(l, list) and all(item == "banana" for item in l):
-        go_bananas(l)
+def maybe_go_bananas(x: Any) -> None:
+    if isinstance(x, list) and all(item == "banana" for item in x):
+        go_bananas(x)
     else:
         pass
 ```
@@ -249,19 +249,19 @@ from typing import Any, Literal
 type ListOfBananas = list[Literal["banana"]]
 
 
-def go_bananas(l: ListOfBananas) -> None:
+def go_bananas(bananas: ListOfBananas) -> None:
     print("BANANAS!!!")
-    for banana in l:
+    for banana in bananas:
         print(banana)
 
 
-def is_list_of_bananas(l: Any) -> TypeIs[ListOFBananas]:
-    return isinstance(l, list) and all(item == "banana" for item in l):
+def is_list_of_bananas(x: Any) -> TypeIs[ListOFBananas]:
+    return isinstance(x, list) and all(item == "banana" for item in x):
 
 
-def maybe_go_bananas(l: list[Any]) -> None:
-    if is_list_of_bananas(l)
-        go_bananas(l)
+def maybe_go_bananas(x: Any) -> None:
+    if is_list_of_bananas(x)
+        go_bananas(x)
     else:
         pass
 ```
