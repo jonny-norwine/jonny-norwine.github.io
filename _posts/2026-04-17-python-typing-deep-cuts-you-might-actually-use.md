@@ -200,6 +200,38 @@ class Banana(Fruit):
 ```
 You can use it when overriding the class or method would cause a real problem, or to formally express design intentions.
 
+# @override
+Put the @override decorator on a method to insist that the base class also has that method.
+```python
+from typing import override
+
+
+class Person:
+    def walk(): ...
+
+
+class Extrovert(Parent):
+    @override
+    def walk(): ...
+```
+If the parent doesn't have that method, the type checker will give you an error
+```python
+from typing import override
+
+
+class Person:
+    def walk(): ...
+
+
+class Extrovert(Person):
+    @override
+    def walk(): ...
+
+    @override
+    def talk(): ... # red squiggle
+```
+This can be a nice guardrail when you're implicitly relying on a base class and its subclass having a method with the same name. 
+
 # TypeIs
 There are some types that the type checker doesn't know how to verify on its own. For example
 ```python
@@ -266,3 +298,40 @@ def maybe_go_bananas(x: Any) -> None:
         pass
 ```
 Functions annotated to return `TypeIs` must take exactly one argument and return a boolean. The `TypeIs` return type annotation tells the type checker, "when this function returns true, the argument has this type."
+
+# NewType
+Sometimes you have objects that behave exactly like an existing class, but you want developers to logically treat them as a distinct subtype. For example 
+```python
+class Username(str):
+    pass
+```
+This can be very useful because type annotations and the type checker remind you the meaning of this string you're passing around
+```python
+class Username(str):
+    pass
+
+
+class Password(str):
+    pass
+
+
+def login() -> tuple[Username, Password]:
+    ...
+
+
+def welcome(username: Username) -> None: 
+    print(f"Welcome, {username}!")
+
+
+password, username = login() # oops! you reversed the variable names
+welcome(username) # red squiggle
+```
+A type checker would stop you before accidentally printing the password. Doing it with subclasses like this introduces runtime overhead, so you can use `NewType` instead
+```python
+from typing import NewType
+
+
+Username = NewType("Username", str)
+Password = NewType("Password", str)
+```
+The Python runtime treats them as `str`, but type checkers will treat them as unique subtypes of `str`.
