@@ -288,7 +288,7 @@ def go_bananas(bananas: ListOfBananas) -> None:
 
 
 def is_list_of_bananas(x: Any) -> TypeIs[ListOFBananas]:
-    return isinstance(x, list) and all(item == "banana" for item in x):
+    return isinstance(x, list) and all(item == "banana" for item in x)
 
 
 def maybe_go_bananas(x: Any) -> None:
