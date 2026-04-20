@@ -210,7 +210,7 @@ class Person:
     def walk(): ...
 
 
-class Extrovert(Parent):
+class Extrovert(Person):
     @override
     def walk(): ...
 ```
